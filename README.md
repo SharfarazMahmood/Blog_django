@@ -1,5 +1,5 @@
-# Share your stories
-### Django practice project
+# Blogging Site. Place to Share your stories
+## Django practice project
 
 
 [![Python Version](https://img.shields.io/badge/python-3.8-brightgreen.svg)](https://python.org)
@@ -7,4 +7,6 @@
 [![Bootstrap Version](https://img.shields.io/badge/bootstrap-4.4-blue)](https://getbootstrap.com/)
 
 ---
-### Features:(upcomming)
+Note:
+    All the project files are in the "Stories" directory.
+<!-- ### Features:(upcomming) -->
