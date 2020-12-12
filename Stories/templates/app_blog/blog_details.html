@@ -18,16 +18,17 @@
     <hr>
   </div>
   <div class="row">
-    <div class="col-sm-3">
+    <div class="col-sm-7">
       <hr>
-      <h5>Comments:</h5>
+      {% for comment in blog.blog_comment.all %}
+      <p> <a href="#">{{comment.user}}:</a> {{comment.comment}} <br> <em>{{comment.comment_date}}</em></p>
+      {% endfor %}
     </div>
-    <div class="col-sm-9">
+    <div class="col-sm-5">
       <form  method="post">
         {{ comment_form|crispy}}
         {% csrf_token %}
         <button type="submit" class="btn- btn-primary btn-sm">comment</button>
       </form>
     </div>
-  </div>
 {% endblock %}

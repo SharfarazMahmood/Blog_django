@@ -41,11 +41,11 @@ def blog_details(request, slug):
     comment_form = CommentForm()
     if request.method == "POST":
         comment_form = CommentForm( request.POST )
-        if commment_form.is_valid():
+        if comment_form.is_valid():
             comment = comment_form.save(commit=False)
             comment.user = request.user
             comment.blog = blog
             comment.save()
-            return HttpResponseRedirect( reverse('app_blog:blog_details'), kwargs={'slug':slug} )
+            return HttpResponseRedirect( reverse('app_blog:blog_details', kwargs={'slug':slug} ) )
     dict = {'blog':blog, 'comment_form':comment_form}
     return render(request, 'app_blog/blog_details.html', context=dict)
