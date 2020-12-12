@@ -1,6 +1,8 @@
 from django.contrib import admin
 
-############# import all the models ################
-from app_login.models import UserProfile
+from app_blog.models import Blog, Comment, Likes
+
 # Register your models here.
-admin.site.register( UserProfile )
+admin.site.register(Blog)
+admin.site.register(Likes)
+admin.site.register(Comment)

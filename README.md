@@ -9,4 +9,6 @@
 ---
 Note:
     All the project files are in the "Stories" directory.
-<!-- ### Features:(upcomming) -->
+### Features:(in progress)
+  * Share Stories, keep them up to date
+  * Like, comment to other's Stories

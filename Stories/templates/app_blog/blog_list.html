@@ -1,10 +1,31 @@
 {% extends 'base.html' %}
-
-{% block title_block %}
-  Home
-{% endblock %}
-
+{% load custom_filters %}
+{% block title_block %} Stories {% endblock %}
 
 {% block body_block %}
-<h1>Home page</h1>
+  <h2>Stories</h2>
+  <!-- {{blogs}} -->
+  <div class="container">
+    {% for blog in blogs %}
+      <h3>{{ blog.blog_title }}</h3>
+      <h6>&nbsp;  &nbsp;<em>Publishe at: {{ blog.publish_date}}</em></h6>
+
+      <div class="row">
+        <div class="col-sm-4">
+          <img src="/media/{{blog.blog_image}}" alt="{{blog.blog_title}}" title="{{blog.blog_title}}" width="100%">
+        </div>
+        <div class="col-sm-8">
+          <p>{{blog.blog_content|range_filter|linebreaks}}<a href="{% url 'app_blog:blog_details' slug=blog.slug %}">Read More</a></p>
+          <h6> <em> author: <a href="#">{{blog.author}}</em> </a> </h6>
+          <hr>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
 {% endblock %}
+
+
+<!--
+Narrative:-what-&-why-862adfd0-25e5-4759-99ce-5c5d7753f61e
+Narrative:-what-&-why-862adfd0-25e5-4759-99ce-5c5d7753f61e
+-->

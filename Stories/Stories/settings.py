@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'app_login',  ##################### add the apps #####################
     'app_blog',
     'crispy_forms',  ################## add the django forms package ###################
+    'django_cleanup.apps.CleanupConfig',  ################## add the django image file cleanup package ###################
 ]
 
 ## forms handling packages>>>>>>>>>>>>>> bootstrap, bootstrap3, bootstrap4, uni-form ///// add one to the project
@@ -117,7 +118,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Dhaka'   ######## set time zone manually 
 
 USE_I18N = True
 
@@ -138,5 +139,5 @@ MEDIA_URL = '/media/'
 ######################################
 
 
-######### cput check for any attempt at viwing "log_out.html" page without loging in
+######### put a check for any attempt at viwing "log_out.html" page without loging in
 LOGIN_URL = '/account/log_in/'
