@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 # Create your models here.
 ############## Create your models here.#######################
 class Blog(models.Model):
-    author = models.ForeignKey(User, related_name='post_author', on_delete = models.CASCADE)
+    author = models.ForeignKey(User, on_delete = models.CASCADE, related_name='post_author')
     blog_title = models.CharField( max_length=300, verbose_name = "Title" )
     slug = models.SlugField( max_length=300, unique=True )
     blog_content = models.TextField( verbose_name="Story" )

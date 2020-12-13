@@ -5,9 +5,10 @@
   <div class="row">
     <div class="col-sm-6">
       <h2>{{blog.blog_title}}</h2>
-      <h4>Posted By: @{{blog.author}}</h4>
+      <h5>Posted By: {{blog.author}}</h5>
       <i><h6>Published On: {{blog.publish_date}}</h6></i>
       <i><h6>Updated On: {{blog.update_date}}</h6></i>
+      <h6>{{blog.blog_like.count}} Likes | {{blog.blog_comment.count}} Comments</h6>
     </div>
     <div class="col-sm-6">
       <img src="/media/{{blog.blog_image}}" width="100%">
@@ -17,9 +18,24 @@
     </p>
     <hr>
   </div>
+  <!-- liked/unliked -->
+  <hr>
+  {% if not liked %}
+    <a href="{% url 'app_blog:liked' pk=blog.pk %}">
+      <i class="fa fa-thumbs-o-up fa-4x" aira-hidden="true"></i>
+    </a><h6>{{blog.blog_like.count}}</h6>
+  {% else %}
+    <a href="{% url 'app_blog:unliked' pk=blog.pk %}">
+      <i class="fa fa-thumbs-o-down fa-4x" aira-hidden="true"></i>
+    </a>
+    <h6>{{blog.blog_like.count}}</h6>
+  {% endif %}
+  <hr>
+
+  <!-- comment section -->
   <div class="row">
     <div class="col-sm-7">
-      <hr>
+      <h6>{{blog.blog_comment.count}} Comments</h6>
       {% for comment in blog.blog_comment.all %}
       <p> <a href="#">{{comment.user}}:</a> {{comment.comment}} <br> <em>{{comment.comment_date}}</em></p>
       {% endfor %}
