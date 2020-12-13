@@ -10,5 +10,6 @@
 Note:
     All the project files are in the "Stories" directory.
 ### Features:(in progress)
-  * Share Stories, keep them up to date
+  * Share Stories with cover image
+  * Edit Stories
   * Like, comment to other's Stories
