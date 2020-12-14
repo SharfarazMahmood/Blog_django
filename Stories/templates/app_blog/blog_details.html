@@ -2,22 +2,17 @@
 {% load crispy_forms_tags %}
 {% block title_block %} {{blog.blog_title}} {% endblock %}
 {% block body_block %}
-  <div class="row">
-    <div class="col-sm-6">
+  <div class="col-sm-12">
       <h2>{{blog.blog_title}}</h2>
       <h5>Posted By: {{blog.author}}</h5>
-      <i><h6>Published On: {{blog.publish_date}}</h6></i>
-      <i><h6>Updated On: {{blog.update_date}}</h6></i>
+      <i><h6>Published: {{blog.publish_date}} | Updated: {{blog.update_date}}</h6></i>
       <h6>{{blog.blog_like.count}} Likes | {{blog.blog_comment.count}} Comments</h6>
-    </div>
-    <div class="col-sm-6">
+
       <img src="/media/{{blog.blog_image}}" width="100%">
-    </div>
-    <p>
-      {{blog.blog_content|linebreaks}}
-    </p>
+    <p class="content-markdown">{{blog.blog_content}}</p>
     <hr>
   </div>
+
   <!-- liked/unliked -->
   <hr>
   {% if not liked %}
@@ -37,7 +32,14 @@
     <div class="col-sm-7">
       <h6>{{blog.blog_comment.count}} Comments</h6>
       {% for comment in blog.blog_comment.all %}
-      <p> <a href="#">{{comment.user}}:</a> {{comment.comment}} <br> <em>{{comment.comment_date}}</em></p>
+        <p> <a href="#">{{comment.user}}:</a> {{comment.comment}} <br> <em>{{comment.comment_date}}</em></p>
+          <!-- Comment likes will be shown here -->
+          <!-- {% if comment.pk in comment.comment_like.all %}
+            <a href="{% url 'app_blog:comment_liked' pk=blog.pk pk_comnt=comment.pk %}" class="btn btn-outline-primary btn-sm">Like</a>{{blog.blog_comment_like.count}}
+          {% else %}
+            <a href="{% url 'app_blog:comment_unliked' pk=blog.pk pk_comnt=comment.pk %}" class="btn btn-primary btn-sm" >likeed</a>{{blog.blog_comment_like.count}} -->
+          {% endif %}
+        <hr>
       {% endfor %}
     </div>
     <div class="col-sm-5">

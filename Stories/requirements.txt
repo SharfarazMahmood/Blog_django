@@ -2,3 +2,6 @@ Django==3.1.3
 Pillow==8.0.1
 Django-crispy-forms==1.10.0
 Django-cleanup==5.1.0
+Django-pagedown==2.2.0
+Django-markdown-deux==1.0.5
+Markdown2==2.3.10

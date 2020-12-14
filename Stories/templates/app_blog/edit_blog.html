@@ -1,15 +1,17 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
-{% block title_block%} {{blog.blog_title}} {% endblock %}
+{% block title_block%} {{current_blog.blog_title}} {% endblock %}
 
 {% block body_block%}
-  {% if blog.author == user %}
+ {% if blog.author == user %}
     <div class="row">
       <div class="col-sm-9">
         <form  method="POST">
           {{form|crispy}}
           {% csrf_token %}
           <button type="submit" name="button" class="btn btn-info btn-sm">Update</button>
+          <br><br>
+          <a href="{% url 'app_blog:delete_blog' pk=blog.pk %}" class="btn btn-danger btn-sm">Delete</a>
         </form>
       </div>
       <div class="col-sm-3">

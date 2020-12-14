@@ -11,5 +11,6 @@ Note:
     All the project files are in the "Stories" directory.
 ### Features:(in progress)
   * Share Stories with cover image
-  * Edit Stories
+  * Use "Markdown" to decorate your story.
+  * Edit, Delete Stories
   * Like, comment to other's Stories

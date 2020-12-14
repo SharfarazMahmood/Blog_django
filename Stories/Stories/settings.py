@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'app_blog',
     'crispy_forms',  ################## add the django forms package ###################
     'django_cleanup.apps.CleanupConfig',  ################## add the django image file cleanup package ###################
+    'pagedown.apps.PagedownConfig', ################## django text editor package (stackoverflow like editor) ###################
 ]
 
 ## forms handling packages>>>>>>>>>>>>>> bootstrap, bootstrap3, bootstrap4, uni-form ///// add one to the project
@@ -118,7 +119,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'Asia/Dhaka'   ######## set time zone manually 
+TIME_ZONE = 'Asia/Dhaka'   ######## set time zone manually
 
 USE_I18N = True
 
