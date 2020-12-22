@@ -5,3 +5,4 @@ Django-cleanup==5.1.0
 Django-pagedown==2.2.0
 Django-markdown-deux==1.0.5
 Markdown2==2.3.10
+Django-ckeditor==6.0.0

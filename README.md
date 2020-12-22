@@ -10,7 +10,9 @@
 Note:
     All the project files are in the "Stories" directory.
 ### Features:(in progress)
-  * Share Stories with cover image
-  * Use "Markdown" to decorate your story.
+  * Share Stories with cover image, 
+  * Keep Stories as Drafts to publish later
+  * Ckeditor integrations to decorate your story.
   * Edit, Delete Stories
+  * Search through the Stories/Blogs.
   * Like, comment to other's Stories

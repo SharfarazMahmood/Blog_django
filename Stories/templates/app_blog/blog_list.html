@@ -3,30 +3,65 @@
 {% block title_block %} Stories {% endblock %}
 
 {% block body_block %}
-  <h2>Stories</h2>
+
   <!-- {{blogs}} -->
   <div class="container">
-    {% for blog in blogs %}
-      <h3>{{ blog.blog_title }}</h3>
-      <h6>&nbsp;  &nbsp;<em>Publishe at: {{ blog.publish_date}}</em></h6>
+    <h1>Stories</h1>
+    <form method="GET" action="">
+      <div class="input-group">
+        <input class="form-control" type="text" name="query" placeholder="Search Stories" value="{{ request.GET.query }}">
+        <span class="input-group-btn">
+          <button class="btn btn-info" type="submit">Search <i class='fa fa-search'></i></button> 
+        </span>
+      </div>
+
+    </form>
+    <hr>
+    {% if not blogs %}
+      <p class="alert alert-info">no search results</p>
+    {% endif %}
+    {% for blog in blogs %} 
+      <!-- <a href="{% url 'app_blog:blog_detail' id=blog.id %}"> <h3>{{ blog.blog_title }}</h3> </a> -->
+      <a href="{{ blog.get_absolute_url }}"> <h3>{{ blog.blog_title }}</h3> </a>
+      
+      <h6>&nbsp;  &nbsp;<em>Published at: {{ blog.publish}}</em></h6>
 
       <div class="row">
         <div class="col-sm-4">
-          <img src="/media/{{blog.blog_image}}" alt="{{blog.blog_title}}" title="{{blog.blog_title}}" width="100%">
+          <div class="thumbnail">
+            {% if blog.blog_image %}
+              <img src="{{ blog.blog_image.url }}" alt="{{blog.blog_title}}" title="{{blog.blog_title}}" width="100%">
+            {% endif %}
+          </div>
         </div>
         <div class="col-sm-8">
-          <p class="content-markdown">{{blog.blog_content|range_filter}}</p><a href="{% url 'app_blog:blog_details' slug=blog.slug %}" class="btn btn-outline-primary btn-sm">Read More</a>
+          <p class="content-markdown">{{blog.blog_content|range_filter}}</p>
+          <a href="{% url 'app_blog:blog_details' slug=blog.slug %}" class="btn btn-outline-primary btn-sm">Read More</a>
           <h6> <em> author: <a href="#">{{blog.author}}</em> </a> </h6>
           <h6>{{blog.blog_like.count}} Likes | {{blog.blog_comment.count}} Comments</h6>
           <hr>
         </div>
       </div>
     {% endfor %}
+
+
+    <div class="pagination">
+        <span class="step-links">
+            {% if blogs.has_previous %}
+                <a href="?{{ page_request_var }}=1 {% if request.GET.query %}&query={{ request.GET.query }}{% endif %}">&laquo; first</a>
+                <a href="?{{ page_request_var }}={{ blogs.previous_page_number }} {% if request.GET.query %}&query={{ request.GET.query }}{% endif %}">previous</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ blogs.number }} of {{ blogs.paginator.num_pages }}.
+            </span>
+
+            {% if blogs.has_next %}
+                <a href="?{{ page_request_var }}={{ blogs.next_page_number }} {% if request.GET.query %}&query={{ request.GET.query }} {% endif %}">next</a>
+                <a href="?{{ page_request_var }}={{ blogs.paginator.num_pages }} {% if request.GET.query %}&query={{ request.GET.query }}{% endif %}">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+
   </div>
 {% endblock %}
-
-
-<!--
-Narrative:-what-&-why-862adfd0-25e5-4759-99ce-5c5d7753f61e
-Narrative:-what-&-why-862adfd0-25e5-4759-99ce-5c5d7753f61e
--->

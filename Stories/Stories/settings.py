@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'crispy_forms',  ################## add the django forms package ###################
     'django_cleanup.apps.CleanupConfig',  ################## add the django image file cleanup package ###################
     'pagedown.apps.PagedownConfig', ################## django text editor package (stackoverflow like editor) ###################
+    'ckeditor',
 ]
 
 ## forms handling packages>>>>>>>>>>>>>> bootstrap, bootstrap3, bootstrap4, uni-form ///// add one to the project
@@ -133,9 +134,11 @@ USE_TZ = True
 
 ###### add these folders ############
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'static_cdn')
 STATICFILES_DIR = STATIC_DIR
 
-MEDIA_ROOT = MEDIA_DIR
+MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'media_cdn')
+# MEDIA_ROOT = MEDIA_DIR
 MEDIA_URL = '/media/'
 ######################################
 

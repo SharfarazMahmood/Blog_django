@@ -11,7 +11,7 @@
           {% csrf_token %}
           <button type="submit" name="button" class="btn btn-info btn-sm">Update</button>
           <br><br>
-          <a href="{% url 'app_blog:delete_blog' pk=blog.pk %}" class="btn btn-danger btn-sm">Delete</a>
+          <a href="{% url 'app_blog:blog_delete' id=blog.id %}" class="btn btn-danger btn-sm">Delete</a>
         </form>
       </div>
       <div class="col-sm-3">

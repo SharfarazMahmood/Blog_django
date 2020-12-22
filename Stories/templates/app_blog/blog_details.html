@@ -2,51 +2,48 @@
 {% load crispy_forms_tags %}
 {% block title_block %} {{blog.blog_title}} {% endblock %}
 {% block body_block %}
-  <div class="col-sm-12">
-      <h2>{{blog.blog_title}}</h2>
+  <div class="col-sm-10">
+      <h2>{{blog.blog_title}}</h2> {% if blog.draft %}<span style="color: red;">Draft</span> {% endif %}
       <h5>Posted By: {{blog.author}}</h5>
-      <i><h6>Published: {{blog.publish_date}} | Updated: {{blog.update_date}}</h6></i>
-      <h6>{{blog.blog_like.count}} Likes | {{blog.blog_comment.count}} Comments</h6>
-
-      <img src="/media/{{blog.blog_image}}" width="100%">
+      <i><h6>Published: {{blog.publish}} | Updated: {{blog.update_date}}</h6></i>
+      <h6>{{blog.blog_like.count}} Likes | 
+      <!-- {{blog.blog_comment.count}} Comments -->
+    </h6>
+      {% if user == blog.author %}
+        <a href="{% url 'app_blog:blog_update' id=blog.id %}" class="btn btn-info btn-sm">Edit</a>
+      {% endif %}
+      <br>
+      <br>
+      <!-- <img src="/media/{{blog.blog_image}}" width="100%"> -->
+      {% if blog.blog_image %}
+        <img src="{{ blog.blog_image.url }}" class="img-fluid" width="100%">
+      {% endif %}
+      <br><br>
     <p class="content-markdown">{{blog.blog_content}}</p>
     <hr>
+
+
+      <!-- liked/unliked -->
+    {% if not liked %}
+      <a href="{% url 'app_blog:liked' pk=blog.pk %}">
+        <i class="fa fa-thumbs-o-up fa-2x" aira-hidden="true"></i>
+      </a><h6>{{blog.blog_like.count}}</h6>
+    {% else %}
+      <a href="{% url 'app_blog:unliked' pk=blog.pk %}">
+        <i class="fa fa-thumbs-o-down fa-2x" aira-hidden="true"></i>
+      </a>
+      <h6>{{blog.blog_like.count}}</h6>
+    {% endif %}
+    <hr>
+
+
+    <!-- facebook like -->
+    <div class="fb-like" data-href="{{ request.build_absolute_uri }}" data-width="" data-layout="standard" data-action="like" data-size="large" data-share="false"></div>
+    <hr>
+    <!-- facebook comment section -->
+    <div class="fb-comments" data-href="{{ request.build_absolute_uri }}" data-width="" data-numposts="5"></div>
+
+
   </div>
 
-  <!-- liked/unliked -->
-  <hr>
-  {% if not liked %}
-    <a href="{% url 'app_blog:liked' pk=blog.pk %}">
-      <i class="fa fa-thumbs-o-up fa-4x" aira-hidden="true"></i>
-    </a><h6>{{blog.blog_like.count}}</h6>
-  {% else %}
-    <a href="{% url 'app_blog:unliked' pk=blog.pk %}">
-      <i class="fa fa-thumbs-o-down fa-4x" aira-hidden="true"></i>
-    </a>
-    <h6>{{blog.blog_like.count}}</h6>
-  {% endif %}
-  <hr>
-
-  <!-- comment section -->
-  <div class="row">
-    <div class="col-sm-7">
-      <h6>{{blog.blog_comment.count}} Comments</h6>
-      {% for comment in blog.blog_comment.all %}
-        <p> <a href="#">{{comment.user}}:</a> {{comment.comment}} <br> <em>{{comment.comment_date}}</em></p>
-          <!-- Comment likes will be shown here -->
-          <!-- {% if comment.pk in comment.comment_like.all %}
-            <a href="{% url 'app_blog:comment_liked' pk=blog.pk pk_comnt=comment.pk %}" class="btn btn-outline-primary btn-sm">Like</a>{{blog.blog_comment_like.count}}
-          {% else %}
-            <a href="{% url 'app_blog:comment_unliked' pk=blog.pk pk_comnt=comment.pk %}" class="btn btn-primary btn-sm" >likeed</a>{{blog.blog_comment_like.count}} -->
-          {% endif %}
-        <hr>
-      {% endfor %}
-    </div>
-    <div class="col-sm-5">
-      <form  method="post">
-        {{ comment_form|crispy}}
-        {% csrf_token %}
-        <button type="submit" class="btn- btn-primary btn-sm">comment</button>
-      </form>
-    </div>
 {% endblock %}
