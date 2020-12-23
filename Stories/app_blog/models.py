@@ -6,10 +6,12 @@ from django.contrib.auth.models import User
 
 from ckeditor.fields import RichTextField
 
+from app_comments.models import Comment
 
-## MVC model view 
+from django.contrib.contenttypes.models import ContentType
+
+
 # Create your models here.
-############## Create your models here.#######################
 class BlogManager(models.Manager):
     def active(self, *args, **kwargs):
         return super(BlogManager, self).filter(draft=False).filter(publish__lte=timezone.now())
@@ -24,7 +26,6 @@ class Blog(models.Model):
     author = models.ForeignKey(User, on_delete = models.CASCADE, related_name='post_author')
     blog_title = models.CharField( max_length=300, verbose_name = "Title" )
     slug = models.SlugField( max_length=320, unique=True )
-    # blog_content = models.TextField( verbose_name="Story")
     blog_content = RichTextField(verbose_name="Story")
 
     ##### following needs the PILLOW package to work
@@ -32,7 +33,6 @@ class Blog(models.Model):
                                     null=True, 
                                     blank=True, 
                                     verbose_name= "Cover Photo")
-    # blog_image = models.FileField( null=True, blank=True, verbose_name= "Cover Photo")
 
     publish_date = models.DateTimeField( auto_now_add=True )
     update_date = models.DateTimeField( auto_now = True )
@@ -42,39 +42,32 @@ class Blog(models.Model):
     objects = BlogManager()
 
     class Meta:
+        verbose_name = "blog"
         ordering = ['-publish', '-update_date'] ## to sort blogs in decending order in list view
     def __str__(self):
         return self.blog_title
     def get_absolute_url(self):
         return reverse('app_blog:blog_detail', kwargs={'id':self.id})
-        # return "detail/%s/" %(self.id)
 
 
+    @property
+    def comments(self):
+        instance = self
+        query_set = Comment.objects.filter_by_instance(instance)
+        return query_set
+
+    @property
+    def get_content_type(self):
+        instance = self
+        # content_type = ContentType.objects.get_for_model(instance.__class__)
+        content_type = ContentType.objects.get_for_model(instance.__class__).model
+        return content_type
+    
 
 
-class Comment(models.Model):
-    blog = models.ForeignKey( Blog, on_delete= models.CASCADE, related_name='blog_comment' )
-    user = models.ForeignKey( User, on_delete= models.CASCADE, related_name='user_comment' )
-    comment = models.TextField( )
-    comment_date = models.DateTimeField( auto_now = True )
-
-    class Meta:
-        ordering = ['-comment_date',] ## to sort blogs in decending order in list view
-    def __str__(self):
-        return self.comment
-
-class Likes(models.Model):
+class Like(models.Model):
     blog = models.ForeignKey( Blog, on_delete= models.CASCADE, related_name='blog_like' )
     user = models.ForeignKey( User, on_delete= models.CASCADE, related_name='user_like' )
 
     def __str__(self):
         return str(self.user) + " likes " + str(self.blog)
-
-
-class CommentLikes(models.Model):
-    comment = models.ForeignKey( Comment, on_delete= models.CASCADE, related_name='comment_like' )
-    user = models.ForeignKey( User, on_delete= models.CASCADE, related_name='user_comment_like' )
-
-    def __str__(self):
-        return str(self.comment)
-###############################################################

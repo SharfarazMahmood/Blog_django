@@ -1,7 +1,7 @@
 from django import forms
 from functools import partial
 from pagedown.widgets import PagedownWidget
-from app_blog.models import Blog, Comment
+from app_blog.models import Blog #, Comment
 
 
 class BlogForm(forms.ModelForm):
@@ -17,7 +17,7 @@ class BlogForm(forms.ModelForm):
         		)
 
 
-class CommentForm(forms.ModelForm):
-    class Meta:
-        model = Comment
-        fields = ('comment',)
+# class CommentForm(forms.ModelForm):
+#     class Meta:
+#         model = Comment
+#         fields = ('comment',)

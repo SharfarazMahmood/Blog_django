@@ -45,12 +45,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'app_login',  ##################### add the apps #####################
     'app_blog',
+    'app_comments',
     'crispy_forms',  ################## add the django forms package ###################
     'django_cleanup.apps.CleanupConfig',  ################## add the django image file cleanup package ###################
     'pagedown.apps.PagedownConfig', ################## django text editor package (stackoverflow like editor) ###################
     'ckeditor',
 ]
-
 ## forms handling packages>>>>>>>>>>>>>> bootstrap, bootstrap3, bootstrap4, uni-form ///// add one to the project
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 

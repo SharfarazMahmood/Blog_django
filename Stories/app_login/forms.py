@@ -6,6 +6,10 @@ from app_login.models import UserProfile
 
 
 class SignUpForm(UserCreationForm):
+    # username = forms.EmailField(label='', required=True, widget=forms.Textarea(attrs={'placeholder': 'Username', 'rows':1}))
+    # email = forms.EmailField(label='', required=True, widget=forms.Textarea(attrs={'placeholder': 'Email', 'rows':1}))
+    # password1 = forms.EmailField(label='', required=True, widget=forms.Textarea(attrs={'placeholder': 'Enter a password', 'rows':1}))
+    # password2 = forms.EmailField(label='', required=True, widget=forms.Textarea(attrs={'placeholder': 'Retype the password', 'rows':1}))
     email = forms.EmailField(label='Email', required=True)
     class Meta:
         model = User

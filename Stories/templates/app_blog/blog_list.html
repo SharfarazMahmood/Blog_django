@@ -4,7 +4,7 @@
 
 {% block body_block %}
 
-  <!-- {{blogs}} -->
+
   <div class="container">
     <h1>Stories</h1>
     <form method="GET" action="">
@@ -14,8 +14,8 @@
           <button class="btn btn-info" type="submit">Search <i class='fa fa-search'></i></button> 
         </span>
       </div>
-
     </form>
+    
     <hr>
     {% if not blogs %}
       <p class="alert alert-info">no search results</p>
@@ -31,20 +31,25 @@
           <div class="thumbnail">
             {% if blog.blog_image %}
               <img src="{{ blog.blog_image.url }}" alt="{{blog.blog_title}}" title="{{blog.blog_title}}" width="100%">
+            {% else %}
+              <em>No cover photo added</em>
             {% endif %}
           </div>
         </div>
         <div class="col-sm-8">
           <p class="content-markdown">{{blog.blog_content|range_filter}}</p>
-          <a href="{% url 'app_blog:blog_details' slug=blog.slug %}" class="btn btn-outline-primary btn-sm">Read More</a>
+          <a href="{% url 'app_blog:blog_detail' id=blog.id %}" class="btn btn-outline-primary btn-sm">Read More</a>
           <h6> <em> author: <a href="#">{{blog.author}}</em> </a> </h6>
-          <h6>{{blog.blog_like.count}} Likes | {{blog.blog_comment.count}} Comments</h6>
+          <h6>{{blog.blog_like.count}} Likes | </h6>
           <hr>
         </div>
       </div>
     {% endfor %}
 
 
+
+
+    <!-- pagination part -->
     <div class="pagination">
         <span class="step-links">
             {% if blogs.has_previous %}

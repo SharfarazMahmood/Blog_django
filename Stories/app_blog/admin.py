@@ -1,8 +1,9 @@
 from django.contrib import admin
 
-from app_blog.models import Blog, Comment, Likes, CommentLikes
+from app_blog.models import Blog, Like #, Comment, CommentLikes
 
 
+## to change/customize The ADMIN panel
 class BlogModelAdmin(admin.ModelAdmin):
 	list_display = ["blog_title", "update_date", "publish_date"]
 	list_display_links = ["update_date"]
@@ -14,5 +15,5 @@ class BlogModelAdmin(admin.ModelAdmin):
 
 # Register your models here.
 admin.site.register(Blog, BlogModelAdmin)
-admin.site.register(Likes)
+admin.site.register(Like)
 # admin.site.register(Comment)

@@ -69,7 +69,6 @@
                   </a>
                   <div class="dropdown-menu">
                       <a class="dropdown-item" href="{% url 'app_blog:my_blogs' %}">My Stories</a>
-                      <!-- <a class="dropdown-item" href="{% url 'app_blog:create_blog' %}">Write a story</a> -->
                       <a class="dropdown-item" href="{% url 'app_blog:blog_create' %}">Write a story</a>
                       <a class="dropdown-item" href="{% url 'app_login:profile' %}">Profile</a>
                       <hr>
@@ -102,6 +101,23 @@
       {% block body_block %}
 
       {% endblock %}
+
+
+
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $(".comment-reply-btn").click(function(event){
+                event.preventDefault();
+                $(this).parent().next(".comment-reply").fadeToggle("fast", "swing");
+            })
+        })
+    </script>
+
+
+
+
+
     </div>
     <br><br>
   </body>

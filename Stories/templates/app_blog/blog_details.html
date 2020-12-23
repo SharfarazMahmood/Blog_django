@@ -1,29 +1,40 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
 {% block title_block %} {{blog.blog_title}} {% endblock %}
+
+
+
 {% block body_block %}
+
   <div class="col-sm-10">
       <h2>{{blog.blog_title}}</h2> {% if blog.draft %}<span style="color: red;">Draft</span> {% endif %}
       <h5>Posted By: {{blog.author}}</h5>
       <i><h6>Published: {{blog.publish}} | Updated: {{blog.update_date}}</h6></i>
       <h6>{{blog.blog_like.count}} Likes | 
-      <!-- {{blog.blog_comment.count}} Comments -->
     </h6>
       {% if user == blog.author %}
         <a href="{% url 'app_blog:blog_update' id=blog.id %}" class="btn btn-info btn-sm">Edit</a>
       {% endif %}
       <br>
       <br>
-      <!-- <img src="/media/{{blog.blog_image}}" width="100%"> -->
       {% if blog.blog_image %}
         <img src="{{ blog.blog_image.url }}" class="img-fluid" width="100%">
       {% endif %}
-      <br><br>
+      <br>
     <p class="content-markdown">{{blog.blog_content}}</p>
     <hr>
 
 
-      <!-- liked/unliked -->
+    <!-- facebook like -->
+  <!--   <div class="fb-like" data-href="{{ request.build_absolute_uri }}" data-width="" data-layout="standard" data-action="like" data-size="large" data-share="false"></div>
+    <hr> -->
+    <!-- facebook comment section -->
+    <!-- <div class="fb-comments" data-href="{{ request.build_absolute_uri }}" data-width="" data-numposts="5"></div> -->
+
+
+
+    <!-- liked/unliked section -->
+    <br>
     {% if not liked %}
       <a href="{% url 'app_blog:liked' pk=blog.pk %}">
         <i class="fa fa-thumbs-o-up fa-2x" aira-hidden="true"></i>
@@ -35,15 +46,42 @@
       <h6>{{blog.blog_like.count}}</h6>
     {% endif %}
     <hr>
+    <!-- comments section -->
+    <div>
+      <p class="lead">Comments</p>
+      <form method="POST" action=".">
+        {{ comment_form|crispy }}
+        {% csrf_token %}
+        <input type='submit' value="Post" class='btn btn-info btn-sm'>
+      </form>
+      <hr>
 
+      {% for comment in comments %}
+      <blockquote class="blockquote" style="padding-left: 40px">
+        <p class="mb-0">{{ comment.content }}</p>
+        <footer class="blockquote-footer"> <small>{{ comment.user }} | <cite title="timestamp">{{ comment.timestamp }}|</cite></small> 
+         {% if comment.children.count > 0 %} {{comment.children.count}} Replies | {% endif %}<a href="#" class="comment-reply-btn">Reply</a> </footer>
+        <!-- reply section -->
+        <div class="comment-reply">
+          {% for reply in comment.children %}
+            <blockquote class="blockquote" style="padding-left: 40px">
+              <p class="mb-0">{{ reply.content }}</p>
+              <footer class="blockquote-footer"> <small>{{ reply.user }} | <cite title="timestamp">{{ reply.timestamp }}</cite></small> </footer>
+            </blockquote>
+          {% endfor %}
+          <form method="POST" action=".">
+            {{ comment_form|crispy }}
+            {% csrf_token %}
+            <input type="hidden" name="parent_id" value="{{ comment.id }}">
+            <input type='submit' value="Reply" class='btn btn-secondary btn-sm'>
+          </form>
+        </div>
+      </blockquote>
+      {% endfor %}
 
-    <!-- facebook like -->
-    <div class="fb-like" data-href="{{ request.build_absolute_uri }}" data-width="" data-layout="standard" data-action="like" data-size="large" data-share="false"></div>
-    <hr>
-    <!-- facebook comment section -->
-    <div class="fb-comments" data-href="{{ request.build_absolute_uri }}" data-width="" data-numposts="5"></div>
-
-
+      <hr>
+      <!-- {{ blog.commented_on.all }} -->
+    </div>
   </div>
 
 {% endblock %}
