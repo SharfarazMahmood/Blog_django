@@ -13,7 +13,6 @@ urlpatterns  = [
     path('delete/<id>/', views.blog_delete, name='blog_delete'),
     path('detail/<id>/', views.blog_detail, name='blog_detail'),
 
-    path('detail/<id>/', views.blog_detail, name='blog_detail'),
     path('my_blogs/', views.My_blogs.as_view(), name="my_blogs"),
     path('liked/<pk>/', views.liked, name='liked'),
     path('unliked/<pk>/', views.unliked, name='unliked'),

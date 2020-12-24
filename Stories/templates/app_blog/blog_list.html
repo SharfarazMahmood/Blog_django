@@ -3,13 +3,11 @@
 {% block title_block %} Stories {% endblock %}
 
 {% block body_block %}
-
-
   <div class="container">
-    <h1>Stories</h1>
+
     <form method="GET" action="">
       <div class="input-group">
-        <input class="form-control" type="text" name="query" placeholder="Search Stories" value="{{ request.GET.query }}">
+        <input class="form-control" type="text" name="query" placeholder="Search in Stories, Author, Title" value="{{ request.GET.query }}">
         <span class="input-group-btn">
           <button class="btn btn-info" type="submit">Search <i class='fa fa-search'></i></button> 
         </span>
@@ -20,12 +18,8 @@
     {% if not blogs %}
       <p class="alert alert-info">no search results</p>
     {% endif %}
-    {% for blog in blogs %} 
-      <!-- <a href="{% url 'app_blog:blog_detail' id=blog.id %}"> <h3>{{ blog.blog_title }}</h3> </a> -->
-      <a href="{{ blog.get_absolute_url }}"> <h3>{{ blog.blog_title }}</h3> </a>
-      
-      <h6>&nbsp;  &nbsp;<em>Published at: {{ blog.publish}}</em></h6>
 
+    {% for blog in blogs %} 
       <div class="row">
         <div class="col-sm-4">
           <div class="thumbnail">
@@ -37,17 +31,17 @@
           </div>
         </div>
         <div class="col-sm-8">
+          <blockquote class="blockquote">
+            <p class="mb-0">  <h1>{{ blog.blog_title }}</h1> </p>
+            <footer class="blockquote-footer">{{blog.author}} | <cite title="Source Title"> {{ blog.publish}}</cite> | {{blog.blog_like.count}} Likes </footer>
+          </blockquote>
           <p class="content-markdown">{{blog.blog_content|range_filter}}</p>
-          <a href="{% url 'app_blog:blog_detail' id=blog.id %}" class="btn btn-outline-primary btn-sm">Read More</a>
-          <h6> <em> author: <a href="#">{{blog.author}}</em> </a> </h6>
-          <h6>{{blog.blog_like.count}} Likes | </h6>
+          <a href="{{ blog.get_absolute_url }}" class="btn btn-outline-primary btn-sm">Read More</a>
           <hr>
         </div>
       </div>
+      <br>
     {% endfor %}
-
-
-
 
     <!-- pagination part -->
     <div class="pagination">

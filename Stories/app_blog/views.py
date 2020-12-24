@@ -35,7 +35,7 @@ def blog_home(request):
                                 Q(blog_content__icontains=search_query)
                             ).distinct()
 
-    paginator = Paginator(queryset, 2) # Show 25 contacts per page.
+    paginator = Paginator(queryset, 10) # Show 25 contacts per page.
     page_request_var = 'page'
     page_number = request.GET.get(page_request_var)
     page_obj = paginator.get_page(page_number)
@@ -47,21 +47,17 @@ def blog_home(request):
         }
     return render(request, 'app_blog/blog_list.html', context)
 
-
-
 class My_blogs(LoginRequiredMixin, TemplateView):
     template_name = 'app_blog/my_blogs.html'
-
 
 @login_required
 def blog_detail(request, id):
     instance = get_object_or_404(Blog, id=id)
-    if instance.draft or instance.publish > timezone.now().date() :
-        if not request.user.is_staff or not request.user.is_superuser:
-            raise Http404
+    # if instance.draft or instance.publish > timezone.now().date() :
+        # if not request.user.is_staff or not request.user.is_superuser:
+            # raise Http404
 
     comments = instance.comments #Comment.objects.filter_by_instance(instance)
-
 
     initial_data = {
             "content_type": instance.get_content_type,
@@ -94,16 +90,20 @@ def blog_detail(request, id):
                                                     parent = parent_obj
                                                 )
         return HttpResponseRedirect(new_comment.content_object.get_absolute_url())
-
+    
+    liked =False
+    already_liked = Like.objects.filter(blog=instance, user=request.user)
+    if already_liked:
+        liked = True
+    
     context = {
             'blog': instance,
             'title': instance.blog_title,
+            'liked':liked,
             'comments': comments,
             'comment_form':comment_form,
         }    
     return render(request, 'app_blog/blog_details.html', context)
-
-
 
 @login_required
 def blog_create(request):
@@ -127,14 +127,13 @@ def blog_create(request):
     }
     return render(request, 'app_blog/create_blog.html', context)
 
-
 @login_required
 def blog_update(request, id):
     blog = get_object_or_404(Blog, id=id)
     blog_form = BlogForm(instance=blog)
 
     if request.method =="POST":
-        blog_form = BlogForm(request.POST, request.FILES or None,instance=blog)
+        blog_form = BlogForm(request.POST, request.FILES or None, instance=blog)
         if blog_form.is_valid():
             blog_obj = blog_form.save(commit=False)
             title = blog_obj.blog_title
@@ -152,28 +151,12 @@ def blog_update(request, id):
     }   
     return render(request, 'app_blog/edit_blog.html', context)
 
-
 @login_required
 def blog_delete(request, id):
     blog = get_object_or_404(Blog, id=id)
     blog.delete()
     messages.info(request, 'Story DELETED !!!')
     return redirect('app_blog:my_blogs') 
-
-
-@login_required
-def blog_details(request, slug):
-    blog = Blog.objects.get(slug=slug)
-    liked =False
-    already_liked = Like.objects.filter(blog=blog, user=request.user)
-    if already_liked:
-        liked =True
-
-    dict = {'blog':blog,
-            'liked':liked,
-            }
-    return render(request, 'app_blog/blog_details.html', context=dict)
-
 
 @login_required
 def liked(request, pk):
@@ -184,7 +167,6 @@ def liked(request, pk):
         liked_post =  Like(blog=blog, user=user)
         liked_post.save()
     return HttpResponseRedirect(reverse('app_blog:blog_detail', kwargs={'id':blog.id} ) )
-
 
 @login_required
 def unliked(request, pk):

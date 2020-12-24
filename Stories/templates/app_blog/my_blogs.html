@@ -1,24 +1,31 @@
 {% extends 'base.html' %}
 {% load custom_filters%}
-{% block title_block%} {{user}} {% endblock %}
+{% block title_block%} Stories | {{user}} {% endblock %}
 
 {% block body_block%}
-  {% for blog in user.post_author.all %}
-    <a href="{{ blog.get_absolute_url }}"> <h3>{{ blog.blog_title }} </h3> </a> {% if blog.draft %}<span style="color: red;">Draft</span> {% endif %}
-    <h6>&nbsp;  &nbsp;<em>Publishe at: {{ blog.publish_date}}</em></h6>
-    <div class="row">
-      <div class="col-sm-4">
-        <img src="/media/{{blog.blog_image}}" width="100%">
+  {% if user.post_author.all.count < 1 %}
+    <p class="alert alert-info" >You have not writen any stories yet. <a href="{% url 'app_blog:blog_create' %}">Write One</a> </p>
+  {% else %}
+    {% for blog in user.post_author.all %}
+      <div class="row">
+        <div class="col-sm-4">
+          <img src="/media/{{blog.blog_image}}" width="100%">
+        </div>
+        <div class="col-sm-8">
+          <blockquote class="blockquote">
+            <p class="mb-0">  <h1>{{ blog.blog_title }}</h1> {% if blog.draft %}<span style="color: red;">Draft</span> {% endif %} </p>
+            <footer class="blockquote-footer">{{blog.author}} | <cite title="Source Title"> {{ blog.publish}}</cite> | <cite title="Source Title"> updated on {{ blog.update_date}}</cite> | {{blog.blog_like.count}} Likes </footer>
+          </blockquote>
+          <p class="content-markdown">{{blog.blog_content|range_filter}}</p>
+          <a href="{{ blog.get_absolute_url }}" class="btn btn-outline-primary btn-sm">Read More</a>
+          <!-- <a href="{% url 'app_blog:blog_update' id=blog.id %}" class="btn btn-info btn-sm">Edit</a> -->
+          <hr>
+
+        </div>
       </div>
-      <div class="col-sm-8">
-        <p class="content-markdown">{{blog.blog_content|range_filter}}</p>
-        <a href="{% url 'app_blog:blog_detail' id=blog.id %}" class="btn btn-outline-primary btn-sm">Read More</a>
-        <!-- <a href="{% url 'app_blog:blog_update' id=blog.id %}" class="btn btn-info btn-sm">Edit</a> -->
-        <h6>{{blog.blog_like.count}} Likes | 
-        <!-- {{blog.blog_comment.count}} Comments -->
-        </h6>
-        <hr>
-      </div>
-    </div>
-  {% endfor %}
+      <br><br>
+    {% endfor %}
+  {% endif %}
+
+
 {% endblock %}
