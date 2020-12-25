@@ -1,5 +1,4 @@
 from django import forms
-from functools import partial
 from app_blog.models import Blog #, Comment
 
 

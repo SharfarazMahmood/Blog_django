@@ -14,6 +14,6 @@
   * Keep Stories as Drafts to publish later
   * Ckeditor integrations to decorate your story.
   * Edit, Delete Stories
-  * Search through the all the Stories.
-  * Like, comment to other's Stories
+  * Search through all the Stories.
+  * Like, comment on other's Stories
   * Reply to comments
