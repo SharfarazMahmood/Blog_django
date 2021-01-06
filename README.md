@@ -9,7 +9,7 @@
 ---
 
 
-### Features:(in progress)
+### Features:
   * Share Stories with cover image, 
   * Keep Stories as Drafts to publish later
   * Ckeditor integrations to decorate your story.
